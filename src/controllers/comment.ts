@@ -2,7 +2,6 @@ import Category from "../models/category";
 import Comment from "../models/comment";
 import Post from "../models/post";
 
-
 export const getAllComment = async (req, res) => {
     try {
         const comment = await Comment.find()
@@ -24,7 +23,7 @@ export const getAllComment = async (req, res) => {
 
 export const getOneComment = async function (req, res) {
     try {
-        const comment = await Comment.findById(req.params.id).populate("PostId").populate("UserId")
+        const comment = await Comment.findById(req.params.id)
         if (!comment) {
             return res.status(400).json({
                 message: "Không tìm thấy bình luận",
@@ -48,12 +47,12 @@ export const createComment = async function (req, res) {
                 message: "Không thể thêm bình luận",
             });
         }
-        await Post.findByIdAndUpdate(comment.PostId, {
+        await Post.findByIdAndUpdate(comment.post, {
             $addToSet: {
                 Comments: comment._id,
             },
         });
-        await Post.findByIdAndUpdate(comment.UserId, {
+        await Post.findByIdAndUpdate(comment.author, {
             $addToSet: {
                 Comments: comment._id,
             },

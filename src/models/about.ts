@@ -2,51 +2,32 @@ import mongoose from "mongoose";
 import moment from 'moment-timezone';
 
 moment.tz.setDefault('Asia/Ho_Chi_Minh');
-const PostModel = new mongoose.Schema({
-    title: {
+const AboutModel = new mongoose.Schema({
+    name: {
         type: String,
         require: true
     },
-    content: {
+    email: {
         type: String,
         require: true
     },
-    images: [
-        {
-            type: String,
-            require: true
-        },
-    ],
-    author: {
-        type: String,
-        default: "admin",
-    },
-    tags: {
-        type: String,
-        require: true
-    },
-    views: {
+    phone: {
         type: Number,
         require: true
     },
-    likes: {
-        type: Number,
+    address: {
+        type: String,
         require: true
     },
-    Comments: [
-        {
-            type: mongoose.Types.ObjectId,
-            ref: "Comment",
-            require: true
-        }
-    ],
-    CategoryId: [
-        {
-            type: mongoose.Types.ObjectId,
-            ref: "Category",
-            require: true
-        }
-    ]
+    image: {
+        type: String,
+        require: true
+    },
+    description: {
+        type: String,
+        require: true
+    },
+
 }, {
     timestamps: true,
     versionKey: false,
@@ -60,4 +41,4 @@ const PostModel = new mongoose.Schema({
     },
 })
 
-export default mongoose.model("Post", PostModel)
+export default mongoose.model("About", AboutModel)

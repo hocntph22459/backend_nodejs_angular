@@ -8,7 +8,7 @@ const postSchema = joi.object({
         "string.empty": 'Trường content không được để trống',
         "any.required": 'Trường content là bắt buộc',
     }),
-    images: joi.string().required().messages({
+    images: joi.array().items(joi.string().uri()).required().messages({
         "string.empty": 'Trường images không được để trống',
         "any.required": 'Trường images là bắt buộc',
     }),

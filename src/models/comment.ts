@@ -7,13 +7,15 @@ const CommentModel = new mongoose.Schema({
         type: String,
         require: true
     },
-    UserId: {
+    author: {
         type: mongoose.Types.ObjectId,
-        ref: "User"
+        ref: "User",
+        require: true
     },
-    PostId: {
+    post: {
         type: mongoose.Types.ObjectId,
-        ref: "Post"
+        ref: "Post",
+        require: true
     }
 }, {
     timestamps: true,
