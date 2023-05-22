@@ -21,10 +21,13 @@ const PostModel = new mongoose.Schema({
         type: String,
         default: "admin",
     },
-    tags: {
-        type: String,
-        require: true
-    },
+    tags: [
+        {
+            type: mongoose.Types.ObjectId,
+            ref: "Hashtag",
+            require: true
+        }
+    ],
     views: {
         type: Number,
         require: true

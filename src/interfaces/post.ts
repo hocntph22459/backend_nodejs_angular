@@ -2,9 +2,9 @@ interface IPost {
     _id: string;
     title: string,
     content: string,
-    images: string,
+    images: string[],
     author: string,
-    tags:string,
+    tags:string[],
     views: number,
     likes: number,
     comments: string,

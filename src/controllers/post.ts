@@ -1,34 +1,11 @@
 import Post from "../models/post";
 import Category from "../models/category";
 import postSchema from "../validates/post";
-
-// export const getAll = async (req, res) => {
-//     const { _sort = "createAt", _order = "asc", _limit = 10, _page = 1 } = req.query;
-//     const options = {
-//         page: _page,
-//         limit: _limit,
-//         sort: {
-//             [_sort]: _order === "desc" ? -1 : 1,
-//         },
-//     };
-//     try {
-//         const posts = await Post.paginate({}, options);
-//         if (posts.length === 0) {
-//             return res.json({
-//                 message: "Không có bài viết nào",
-//             });
-//         }
-//         return res.json(posts);
-//     } catch (error) {
-//         return res.status(400).json({
-//             message: error,
-//         });
-//     }
-// };
+import HashTag from "../models/hashtag";
 
 export const getAllPost = async (req, res) => {
     try {
-        const post = await Post.find()
+        const post = await Post.find().populate("tags")
         if (post.length === 0) {
             return res.status(400).json({
                 message: "Không có bài viết nào",
@@ -48,7 +25,7 @@ export const getAllPost = async (req, res) => {
 export const getOnePost = async function (req, res) {
     const PostId = req.params.PostId; // Lấy id của bài đăng
     try {
-        const post = await Post.findById(req.params.id).populate("CategoryId").populate("Comments")
+        const post = await Post.findById(req.params.id).populate("tags").populate("CategoryId").populate("Comments")
         if (!post) {
             return res.status(400).json({
                 message: "Không tìm thấy bài viết",
@@ -59,7 +36,7 @@ export const getOnePost = async function (req, res) {
             $and: [
                 { _id: { $ne: PostId } },
                 { $or: [{ tags: { $in: post.tags } }, { CategoryId: post.CategoryId }] }],
-        }).limit(3);
+        }).limit(3).populate("tags");
         return res.status(200).json({
             message: "thành công",
             data: post, relatedPosts
@@ -85,6 +62,11 @@ export const createPost = async function (req, res) {
                 message: "Không thể thêm bài viết",
             });
         }
+        await HashTag.findByIdAndUpdate(post.tags, {
+            $addToSet: {
+                posts: post._id,
+            },
+        });
         await Category.findByIdAndUpdate(post.CategoryId, {
             $addToSet: {
                 posts: post._id,
@@ -115,6 +97,11 @@ export const updatePost = async function (req, res) {
                 message: "Cập nhật bài viết không thành công",
             });
         }
+        await HashTag.findByIdAndUpdate(post.tags, {
+            $addToSet: {
+                posts: post._id,
+            },
+        });
         await Category.findByIdAndUpdate(post.CategoryId, {
             $addToSet: {
                 posts: post._id,
