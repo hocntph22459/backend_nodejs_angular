@@ -153,8 +153,8 @@ export const forgotPassword = async (req, res) => {
                 message: "Tài khoản của bạn không tồn tại",
             });
         }
-        // Cập nhật mật khẩu mới của người dùng trong cơ sở dữ liệu
-        user.password = passwordNew;
+        // Cập nhật mật khẩu mới và mã hõa của người dùng trong cơ sở dữ liệu
+        user.password = await bcrypt.hash(passwordNew, 10); 
         await user.save();
         // Gửi email mật khẩu mới
         const transporter = nodemailer.createTransport({
