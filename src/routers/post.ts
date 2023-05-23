@@ -6,7 +6,7 @@ const RouterPost = express.Router();
 RouterPost.get("/", getAllPost);
 RouterPost.get("/:id", getOnePost);
 RouterPost.post("/",checkPermission, createPost);
-RouterPost.put("/:id", updatePost);
+RouterPost.put("/:id",checkPermission, updatePost);
 RouterPost.delete("/:id",checkPermission, removePost);
 
 export default RouterPost;

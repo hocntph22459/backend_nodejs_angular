@@ -5,7 +5,7 @@ import HashTag from "../models/hashtag";
 
 export const getAllPost = async (req, res) => {
     try {
-        const post = await Post.find().populate("tags")
+        const post = await Post.find().populate("tags").populate("Comments").populate("CategoryId")
         if (post.length === 0) {
             return res.status(400).json({
                 message: "Không có bài viết nào",
