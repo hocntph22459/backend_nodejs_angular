@@ -52,7 +52,7 @@ export const createComment = async function (req, res) {
                 Comments: comment._id,
             },
         });
-        await Post.findByIdAndUpdate(comment.author, {
+        await Post.findByIdAndUpdate(comment.user, {
             $addToSet: {
                 Comments: comment._id,
             },

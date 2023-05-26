@@ -4,7 +4,7 @@ interface IContact {
     email: string,
     phone: number,
     address: string,
-    content:string,
+    support:string,
     createdAt?: Date;
     updatedAt?: Date;
     deletedAt?: Date | null,
