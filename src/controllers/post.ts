@@ -25,7 +25,7 @@ export const getAllPost = async (req, res) => {
 export const getOnePost = async function (req, res) {
     const PostId = req.params.PostId; // Lấy id của bài đăng
     try {
-        const post = await Post.findById(req.params.id).populate("tags").populate("CategoryId").populate("Comments")
+        const post:any = await Post.findById(req.params.id).populate("tags").populate("CategoryId").populate("Comments")
         if (!post) {
             return res.status(400).json({
                 message: "Không tìm thấy bài viết",
@@ -37,10 +37,17 @@ export const getOnePost = async function (req, res) {
                 { _id: { $ne: PostId } },
                 { $or: [{ tags: { $in: post.tags } }, { CategoryId: post.CategoryId }] }],
         }).limit(3).populate("tags");
+
+
+        // Tăng số lượt xem lên một đơn vị
+        post.views++;
+        await post.save();
+
         return res.status(200).json({
             message: "thành công",
             data: post, relatedPosts
         });
+
     } catch (error) {
         return res.status(404).json({
             message: error.message,

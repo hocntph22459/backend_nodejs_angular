@@ -4,7 +4,7 @@ import { createAbout, getAllAbout, removeAbout, updateAbout } from "../controlle
 const RouterAbout = express.Router();
 
 RouterAbout.get("/", getAllAbout);
-RouterAbout.post("/",checkPermission, createAbout);
+RouterAbout.post("/", createAbout);
 RouterAbout.put("/:id",checkPermission, updateAbout);
 RouterAbout.delete("/:id",checkPermission, removeAbout);
 
