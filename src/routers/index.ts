@@ -7,6 +7,7 @@ import RouterContact from "./contact";
 import RouterUser from "./user";
 import RouterAbout from "./about";
 import RouterHashTag from "./hashtag";
+import { searchPost } from "../controllers/post";
 const Router = express.Router();
 
 Router.use("/posts", RouterPost);
@@ -17,4 +18,5 @@ Router.use("/abouts", RouterAbout);
 Router.use("/auth", routerAuth);
 Router.use("/users", RouterUser);
 Router.use("/hashtags", RouterHashTag);
+Router.use("/post", searchPost);
 export default Router;

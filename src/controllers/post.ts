@@ -25,7 +25,7 @@ export const getAllPost = async (req, res) => {
 export const getOnePost = async function (req, res) {
     const PostId = req.params.PostId; // Lấy id của bài đăng
     try {
-        const post:any = await Post.findById(req.params.id).populate("tags").populate("CategoryId").populate("Comments")
+        const post: any = await Post.findById(req.params.id).populate("tags").populate("CategoryId").populate("Comments")
         if (!post) {
             return res.status(400).json({
                 message: "Không tìm thấy bài viết",
@@ -54,6 +54,27 @@ export const getOnePost = async function (req, res) {
         });
     }
 };
+export const searchPost = async function (req, res) {
+    const searchTerm = req.query.title;
+    try {
+        const post = await Post.find({ title: { $regex: searchTerm, $options: 'i' } })
+        if(!post){
+            return res.status(400).json({
+                message: "Không tìm thấy bài viết",
+            });
+        }else{
+            return res.status(200).json({
+                message: "thành công",
+                data: post
+            });
+        }
+    } catch (error) {
+        return res.status(400).json({ message: error.message });
+
+    }
+
+};
+
 export const createPost = async function (req, res) {
     try {
         const { error } = postSchema.validate(req.body, { abortEarly: false });
