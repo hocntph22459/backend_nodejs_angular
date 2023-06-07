@@ -30,7 +30,8 @@ const PostModel = new mongoose.Schema({
     ],
     views: {
         type: Number,
-        require: true
+        require: true,
+        default: 1,
     },
     likes: {
         type: Number,
